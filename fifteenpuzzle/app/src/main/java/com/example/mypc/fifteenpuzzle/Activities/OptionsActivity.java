@@ -53,9 +53,9 @@ public class OptionsActivity extends AppCompatActivity {
     private int currentPosition = 1;
     private final int NEXT_TO_LEFT = -1;
     private final int NEXT_TO_RIGHT = 1;
-    private final int NUM_PREVIEWS = 4;
+    private final int NUM_PREVIEWS = 6;
     private static final String TAG = "OptionsActivity";
-    private boolean[] onTouchable = new boolean[4];
+
 
 
     @Override
@@ -65,7 +65,7 @@ public class OptionsActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_options);
-        //getSupportActionBar().hide();
+        getSupportActionBar().hide();
         ButterKnife.bind(this);
         Define();
         Initialization();
@@ -113,8 +113,7 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private void Initialization() {
-        for(int i = 0 ;i < 3 ;i ++)
-            onTouchable[i] = true;
+
         currentPosition = 1;
         ivMainImage.setImageResource(idPreview[1]);
         ivMain.setImageResource(idPreview[1]);
@@ -136,7 +135,7 @@ public class OptionsActivity extends AppCompatActivity {
         clPreviewPicture.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(!onTouchable[0] || !onTouchable[1] || !onTouchable[2]) return false;
+
                 gestureDetector.onTouchEvent(event);
                 return true;
             }
@@ -146,7 +145,7 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private boolean changePicture(final int dir) {
-        if(!onTouchable[0] || !onTouchable[1] || !onTouchable[2]) return false;
+
         soundModel.playSound(R.raw.snapping);
 
         //  clPreviewPicture.setVisibility(View.VISIBLE);

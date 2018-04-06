@@ -14,7 +14,6 @@ public class TimeModel {
     public boolean isPausing;
 
 
-
     public TimeModel(Chronometer chronometer, long timeWhenStopped) {
         this.chronometer = chronometer;
         this.timeWhenStopped = timeWhenStopped;
@@ -22,34 +21,36 @@ public class TimeModel {
         isPausing = false;
     }
 
-    public void Start(){
+    public void Start() {
         chronometer.start();
         timeWhenStopped = 0;
         isPausing = false;
         started = true;
     }
 
-    public void Pause(){
+    public void Pause() {
+        if(this.isPausing) return;
         timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
+        chronometer.setBase(SystemClock.elapsedRealtime() +timeWhenStopped);
         chronometer.stop();
         isPausing = true;
     }
 
-    public void Continue(){
+    public void Continue() {
         chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
         chronometer.start();
+        isPausing = false;
     }
 
-    public void Stop(){
+    public void Stop() {
         chronometer.setBase(SystemClock.elapsedRealtime());
         timeWhenStopped = 0;
         started = false;
         isPausing = false;
     }
 
-    public void Reset(){
+    public void Reset() {
         chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
         timeWhenStopped = 0;
         started = true;
         isPausing = false;

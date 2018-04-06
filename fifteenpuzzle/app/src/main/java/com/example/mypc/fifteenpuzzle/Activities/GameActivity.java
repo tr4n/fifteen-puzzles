@@ -93,7 +93,7 @@ public class GameActivity extends AppCompatActivity {
     private int[][] puzzle = new int[6][6];
     private boolean onTouchable = false;
     private boolean turnOnSound = false, isChangling = false;
-    private boolean firstMoving = false;
+    private boolean wasMoved = false;
     private final int[] directX = {0, -1, 0, 1};
     private final int[] directY = {1, 0, -1, 0};
     private final int LEFT_TO_RIGHT = 0, DOWN_TO_UP = 1, RIGHT_TO_LEFT = 2, UP_TO_DOWN = 3;
@@ -153,10 +153,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         requestWindowFeature(Window.FEATURE_NO_TITLE);
-         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
-         getSupportActionBar().hide();
+        getSupportActionBar().hide();
         ButterKnife.bind(this);
         Define();
         Initialization();
@@ -170,51 +170,44 @@ public class GameActivity extends AppCompatActivity {
     @OnClick({R.id.iv_back, R.id.tv_current_moving, R.id.tv_best_moving, R.id.cl_main_board, R.id.iv_continue, R.id.iv_newgame, R.id.iv_solve, R.id.iv_quit, R.id.cl_menu_box, R.id.iv_menu, R.id.cl_score_board, R.id.v_cancel_dielog, R.id.v_no_dielog, R.id.v_yes_dielog, R.id.v_forget, R.id.v_reset, R.id.v_cancel_dielog_forget, R.id.iv_custom, R.id.v_ok_dielog_savename, R.id.v_cancel_dielog_savename})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_menu:
+                if (turnOnSound) soundModel.playSound(R.raw.snapping);
+                if (!onTouchable) break;
+                if (wasMoved) timeModel.Pause();
+                wasMoved = false;
+                clMenuBox.setVisibility(View.VISIBLE);
+                onTouchable = false;
+                break;
             case R.id.iv_back:
-
                 if (!onTouchable) break;
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 this.finish();
                 break;
-            case R.id.tv_current_moving:
-                break;
-            case R.id.tv_best_moving:
-                break;
-            case R.id.cl_score_board:
 
-                break;
             case R.id.iv_continue:
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clMenuBox.setVisibility(View.GONE);
-                timeModel.Continue();
                 onTouchable = true;
                 break;
             case R.id.iv_newgame:
-                isChangling = true;
-
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
-                numberMoving = 0;
-                tvCurrentMoving.setText("0");
-                if (firstMoving) timeModel.Stop();
-
-                onTouchable = true;
                 clMenuBox.setVisibility(View.GONE);
-
+                Toast.makeText(GameActivity.this, "Your result may be saved in High Scores", Toast.LENGTH_SHORT).show();
                 Initialization();
                 getRandomMap();
                 break;
             case R.id.iv_solve:
                 isChangling = false;
-                timeModel.Continue();
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 turnOnSound = false;
                 onTouchable = false;
+                if(timeModel.started) timeModel.Continue();
                 boolean getSolutionable = getSolution();
                 if (!getSolutionable) {
                     Toast.makeText(GameActivity.this, "All the puzzles is correct !", Toast.LENGTH_SHORT).show();
                 }
-                turnOnSound = true;
 
+                turnOnSound = true;
                 clMenuBox.setVisibility(View.GONE);
                 onTouchable = true;
                 break;
@@ -222,30 +215,35 @@ public class GameActivity extends AppCompatActivity {
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 this.finish();
                 break;
-            case R.id.cl_menu_box:
-                break;
-            case R.id.iv_menu:
+            case R.id.v_reset:
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
-                if (!onTouchable) break;
-                clMenuBox.setVisibility(View.VISIBLE);
-                if (firstMoving) timeModel.Pause();
+                clDielogReset.setVisibility(View.VISIBLE);
+                if (wasMoved) timeModel.Pause();
+                wasMoved = false;
                 onTouchable = false;
                 break;
             case R.id.v_cancel_dielog:
+                Log.d(TAG, "onViewClicked: " + "cancel Reset result");
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogReset.setVisibility(View.GONE);
                 onTouchable = true;
                 break;
             case R.id.v_yes_dielog:
-                if (turnOnSound) soundModel.playSound(R.raw.snapping);
-                if (timeModel.started) {
-                    timeModel.Stop();
-                    timeModel.Pause();
-                    firstMoving = false;
+                Log.d(TAG, "onViewClicked: " + "Yes Reset result");
+                onTouchable = true;
+                if(isChangling) {
+                    Toast.makeText(GameActivity.this, "Can't reset result during changling", Toast.LENGTH_SHORT).show();
+
+                    break;
                 }
+
+                if (turnOnSound) soundModel.playSound(R.raw.snapping);
+                timeModel = new TimeModel(chronometer, 0);
+                timeModel.Reset();
+                timeModel.Pause();
+                wasMoved = false;
                 numberMoving = 0;
                 tvCurrentMoving.setText("0");
-                onTouchable = true;
                 clDielogReset.setVisibility(View.GONE);
                 break;
             case R.id.v_no_dielog:
@@ -253,18 +251,14 @@ public class GameActivity extends AppCompatActivity {
                 clDielogReset.setVisibility(View.GONE);
                 onTouchable = true;
                 break;
-            case R.id.v_reset:
-                if (turnOnSound) soundModel.playSound(R.raw.snapping);
-                clDielogReset.setVisibility(View.VISIBLE);
-                if (firstMoving) timeModel.Pause();
-                onTouchable = false;
-                break;
 
             case R.id.v_forget:
+                if (wasMoved) timeModel.Pause();
+                wasMoved = false;
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogForget.setVisibility(View.VISIBLE);
                 ivImageForget.setImageResource(idForgetImages[positionMainImage]);
-                if (firstMoving) timeModel.Pause();
+
                 onTouchable = false;
                 break;
 
@@ -275,48 +269,35 @@ public class GameActivity extends AppCompatActivity {
                 break;
             case R.id.iv_custom:
                 isChangling = false;
-
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 numberMoving = 0;
-                timeModel.Stop();
                 tvCurrentMoving.setText("0");
-                if (firstMoving) timeModel.Stop();
-
                 onTouchable = true;
+                Toast.makeText(GameActivity.this, "Your result will not be saved in High Scores", Toast.LENGTH_SHORT).show();
                 clMenuBox.setVisibility(View.GONE);
-
                 Initialization();
                 break;
             case R.id.v_cancel_dielog_savename:
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogSaveName.setVisibility(View.GONE);
                 etSaveName.setVisibility(View.GONE);
-                onTouchable = true;
                 saveName("Anonymous");
-                isChangling = false;
-                getBestResult();
+                Initialization();
                 Intent intentToHighScoreCancel = new Intent(GameActivity.this, HighScoresActivity.class);
                 startActivity(intentToHighScoreCancel);
-
-
                 break;
             case R.id.v_ok_dielog_savename:
                 String name = etSaveName.getText().toString();
                 name = name.length() > 0 ? name : "Anonymous";
                 Log.d(TAG, "onViewClicked: ok save name " + name);
-
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogSaveName.setVisibility(View.GONE);
                 etSaveName.setVisibility(View.GONE);
-                onTouchable = true;
                 saveName(name);
-                isChangling = false;
-                getBestResult();
+                Initialization();
                 Intent intentToHighScore = new Intent(GameActivity.this, HighScoresActivity.class);
                 startActivity(intentToHighScore);
                 break;
-
-
         }
     }
 
@@ -376,16 +357,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void Initialization() {
-        getBestResult();
+        Log.d(TAG, "Initialization: " + "run Initialization");
+
         isChangling = false;
         turnOnSound = true;
         onTouchable = true;
+        wasMoved = false;
+        timeModel = new TimeModel(chronometer, 0);
+        timeModel.Reset();
+        if(!wasMoved) timeModel.Pause();
+        tvCurrentMoving.setText("0");
+        numberMoving = 0;
 
         positionMainImage = getIntent().getIntExtra("PositionOfMainImage", positionMainImage);
-        firstMoving = false;
 
-        numberMoving = 0;
-        timeModel = new TimeModel(chronometer, 0);
         emptyPuzzle = new SpecialPuzzleModel(HEIGHT - 1, WIDTH - 1, 0, true);
         for (int line = 0; line < HEIGHT; line++) {
             for (int column = 0; column < WIDTH; column++) {
@@ -418,25 +403,25 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean getSolution() {
 
-
-        onTouchable = false;
-
         if (autoCheckCorrect(puzzle)) return false;
-
         Log.d(TAG, "getSolution: " + getStringTable(puzzle));
         Log.d(TAG, "getSolution: " + getStringTable(getNewTable(puzzle)));
+
 
         String resultString = SolvingPuzzle.solving(puzzle);
         if (resultString.length() < 1) return false;
         stackResult.clear();
-        // for (int i = 0; i < resultString.length(); i ++)
-        for (int i = resultString.length() - 1; i >= 0; i--) {
-            if (resultString.charAt(i) == 'R') stackResult.add(LEFT_TO_RIGHT);
-            else if (resultString.charAt(i) == 'U') stackResult.add(DOWN_TO_UP);
-            else if (resultString.charAt(i) == 'L') stackResult.add(RIGHT_TO_LEFT);
-            else if (resultString.charAt(i) == 'D') stackResult.add(UP_TO_DOWN);
-        }
 
+
+        for (int position = resultString.length() - 1; position >= 0; position--) {
+            switch ((int)resultString.charAt(position)){
+                case (int) 'R' : stackResult.add(LEFT_TO_RIGHT); break;
+                case (int) 'U' : stackResult.add(DOWN_TO_UP); break;
+                case (int) 'L' : stackResult.add(RIGHT_TO_LEFT); break;
+                case (int) 'D' : stackResult.add(UP_TO_DOWN); break;
+                default: continue;
+            }
+        }
         Log.d(TAG, "getSolution: " + stackResult);
 
         clMainBoard.setOnTouchListener(null);
@@ -445,7 +430,10 @@ public class GameActivity extends AppCompatActivity {
 
 
         turnOnSound = false;
-        CountDownTimer countDownTimer = new CountDownTimer((stackResult.size() + 1) * 250, 200) {
+         int numberSteps = stackResult.size() > 7 ? stackResult.size() - 7 : stackResult.size();
+
+
+        CountDownTimer countDownTimer = new CountDownTimer((numberSteps + 1) * 250, 250) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (!stackResult.isEmpty()) {
@@ -457,13 +445,9 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+              if(!stackResult.isEmpty() )  Toast.makeText(GameActivity.this, "Let's try to complete by less than 10 steps", Toast.LENGTH_LONG).show();
+                Toast.makeText(GameActivity.this, "Your result will not be saved in High Scores", Toast.LENGTH_SHORT).show();
 
-                while (!stackResult.isEmpty()) {
-                    int dir = stackResult.pop();
-                    showSolution += (direct[dir] + "-");
-                    swapContent(dir);
-                    turnOnSound = true;
-                }
                 clMainBoard.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -471,13 +455,12 @@ public class GameActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+                timeModel.Pause();
 
 
-                Toast.makeText(GameActivity.this, showSolution, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(GameActivity.this, showSolution, Toast.LENGTH_SHORT).show();
             }
         }.start();
-
-
         onTouchable = true;
         clMainBoard.setEnabled(true);
         return true;
@@ -515,6 +498,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void setupUI() {
         getRandomMap();
+        getBestResult();
         ivImageForget.setImageResource(idForgetImages[positionMainImage]);
         gestureDetector = new GestureDetector(this, new myGestureDetector());
 
@@ -544,19 +528,16 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean swapContent(int dir) {
 
-        if (!firstMoving) {
-            firstMoving = true;
-
-            timeModel.Reset();
-
-        }
-
         int oldX = emptyPuzzle.x - directX[dir];
         int oldY = emptyPuzzle.y - directY[dir];
         int newX = emptyPuzzle.x;
         int newY = emptyPuzzle.y;
         if (oldX < 0 || oldX >= HEIGHT || oldY < 0 || oldY >= HEIGHT) return false;
 
+        if (!wasMoved) {
+            wasMoved = true;
+            timeModel.Continue();
+        }
         ivPuzzle[newX][newY].setImageDrawable(ivPuzzle[oldX][oldY].getDrawable());
         ivPuzzle[newX][newY].setBackgroundResource(R.drawable.border4);
         ivPuzzle[oldX][oldY].setImageDrawable(null);
@@ -577,16 +558,14 @@ public class GameActivity extends AppCompatActivity {
         boolean isWin = autoCheckCorrect(puzzle);
         if (isWin) {
             timeModel.Pause();
+            wasMoved = false;
+
             Toast.makeText(GameActivity.this, "Congratulations", Toast.LENGTH_SHORT).show();
             if (isChangling) {
                 clDielogSaveName.setVisibility(View.VISIBLE);
-                if (firstMoving) timeModel.Pause();
                 onTouchable = false;
             }
-        } else {
-            if (timeModel.isPausing) timeModel.Continue();
         }
-
         return true;
     }
 
