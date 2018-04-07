@@ -49,11 +49,15 @@ public class OptionsActivity extends AppCompatActivity {
 
     SoundModel soundModel = new SoundModel(this);
 
-    private int[] idPreview = {R.drawable.zero,R.drawable.imageoneqk,  R.drawable.imagetwothienanh, R.drawable.imagethreehai, R.drawable.imagefourtrung, R.drawable.imagefiveqk, R.drawable.imagezero, R.drawable.imageone, R.drawable.imagetwo, R.drawable.imagethree, R.drawable.imagefiveqk, 0};
+    private int[] idPreview = {
+            R.drawable.zero,R.drawable.imageoneqk,  R.drawable.imagetwothienanh, R.drawable.imagethreehai,
+            R.drawable.imagefourtrung, R.drawable.imagefiveqk, R.drawable.imagesixhoang, R.drawable.imageseven,
+            R.drawable.imagetech, R.drawable.imageninegirl, R.drawable.imageten, 0
+    };
     private int currentPosition = 1;
     private final int NEXT_TO_LEFT = -1;
     private final int NEXT_TO_RIGHT = 1;
-    private final int NUM_PREVIEWS = 6;
+    private final int NUM_PREVIEWS = 11;
     private static final String TAG = "OptionsActivity";
 
 
@@ -83,7 +87,6 @@ public class OptionsActivity extends AppCompatActivity {
                 changePicture(NEXT_TO_LEFT);
                 break;
             case R.id.iv_arrow_right:
-
                 changePicture(NEXT_TO_RIGHT);
 
                 break;
@@ -148,7 +151,6 @@ public class OptionsActivity extends AppCompatActivity {
 
         soundModel.playSound(R.raw.snapping);
 
-        //  clPreviewPicture.setVisibility(View.VISIBLE);
         currentPosition = (dir + currentPosition + NUM_PREVIEWS) % NUM_PREVIEWS;
         ivMainImage.setImageResource(idPreview[currentPosition]);
         ivMain.setImageResource(idPreview[currentPosition]);
@@ -164,12 +166,8 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private class myGestureDetector implements GestureDetector.OnGestureListener {
-        final int RIGHT_QUARTER = 0;
-        final int UP_QUARTER = 1;
-        final int LEFT_QUARTER = 2;
-        final int DOWN_QUARTER = 3;
-        final int SWIP_VELOCITY = 100;
-        final int SWIP_THERSHOLD = 100;
+        final int SWIP_VELOCITY = 50;
+        final int SWIP_THERSHOLD = 50;
 
 
         @Override

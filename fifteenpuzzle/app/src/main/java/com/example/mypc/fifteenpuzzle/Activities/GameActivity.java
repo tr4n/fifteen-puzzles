@@ -101,10 +101,9 @@ public class GameActivity extends AppCompatActivity {
     private int numberMoving = 0;
     private int positionMainImage = 1;
     private int[] idForgetImages = {
-            R.drawable.zero, R.drawable.imageoneqk, R.drawable.imagetwothienanh,
-            R.drawable.imagethreehai, R.drawable.imagefourtrung, R.drawable.imagefiveqk,
-            R.drawable.imagezero, R.drawable.imageone, R.drawable.imagetwo,
-            R.drawable.imagethree, 0
+            R.drawable.zero,R.drawable.imageoneqk,  R.drawable.imagetwothienanh, R.drawable.imagethreehai,
+            R.drawable.imagefourtrung, R.drawable.imagefiveqk, R.drawable.imagesixhoang, R.drawable.imageseven,
+            R.drawable.imagetech, R.drawable.imageninegirl, R.drawable.imageten, 0
     };
     private int[][][] idIvPuzzles = {
             {
@@ -142,7 +141,37 @@ public class GameActivity extends AppCompatActivity {
                     {R.drawable.fiveba, R.drawable.fivebb, R.drawable.fivebc, R.drawable.fivebd},
                     {R.drawable.fiveca, R.drawable.fivecb, R.drawable.fivecc, R.drawable.fivecd},
                     {R.drawable.fiveda, R.drawable.fivedb, R.drawable.fivedc, R.drawable.fivedd}
-            }
+            },
+            {
+                    {R.drawable.sixaa, R.drawable.sixab, R.drawable.sixac, R.drawable.sixad},
+                    {R.drawable.sixba, R.drawable.sixbb, R.drawable.sixbc, R.drawable.sixbd},
+                    {R.drawable.sixca, R.drawable.sixcb, R.drawable.sixcc, R.drawable.sixcd},
+                    {R.drawable.sixda, R.drawable.sixdb, R.drawable.sixdc, R.drawable.sixdd}
+            },
+            {
+                    {R.drawable.sevenaa, R.drawable.sevenab, R.drawable.sevenac, R.drawable.sevenad},
+                    {R.drawable.sevenba, R.drawable.sevenbb, R.drawable.sevenbc, R.drawable.sevenbd},
+                    {R.drawable.sevenca, R.drawable.sevencb, R.drawable.sevencc, R.drawable.sevencd},
+                    {R.drawable.sevenda, R.drawable.sevendb, R.drawable.sevendc, R.drawable.sevendd}
+            },
+            {
+                    {R.drawable.techaa, R.drawable.techab, R.drawable.techac, R.drawable.techad},
+                    {R.drawable.techba, R.drawable.techbb, R.drawable.techbc, R.drawable.techbd},
+                    {R.drawable.techca, R.drawable.techcb, R.drawable.techcc, R.drawable.techcd},
+                    {R.drawable.techda, R.drawable.techdb, R.drawable.techdc, R.drawable.techdd}
+            },
+            {
+                    {R.drawable.nineaa, R.drawable.nineab, R.drawable.nineac, R.drawable.ninead},
+                    {R.drawable.nineba, R.drawable.ninebb, R.drawable.ninebc, R.drawable.ninebd},
+                    {R.drawable.nineca, R.drawable.ninecb, R.drawable.ninecc, R.drawable.ninecd},
+                    {R.drawable.nineda, R.drawable.ninedb, R.drawable.ninedc, R.drawable.ninedd}
+            },
+            {
+                    {R.drawable.tenaa, R.drawable.tenab, R.drawable.tenac, R.drawable.tenad},
+                    {R.drawable.tenba, R.drawable.tenbb, R.drawable.tenbc, R.drawable.tenbd},
+                    {R.drawable.tenca, R.drawable.tencb, R.drawable.tencc, R.drawable.tencd},
+                    {R.drawable.tenda, R.drawable.tendb, R.drawable.tendc, R.drawable.tendd}
+            },
 
 
     };
@@ -201,7 +230,7 @@ public class GameActivity extends AppCompatActivity {
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 turnOnSound = false;
                 onTouchable = false;
-                if(timeModel.started) timeModel.Continue();
+                if (timeModel.started) timeModel.Continue();
                 boolean getSolutionable = getSolution();
                 if (!getSolutionable) {
                     Toast.makeText(GameActivity.this, "All the puzzles is correct !", Toast.LENGTH_SHORT).show();
@@ -231,7 +260,7 @@ public class GameActivity extends AppCompatActivity {
             case R.id.v_yes_dielog:
                 Log.d(TAG, "onViewClicked: " + "Yes Reset result");
                 onTouchable = true;
-                if(isChangling) {
+                if (isChangling) {
                     Toast.makeText(GameActivity.this, "Can't reset result during changling", Toast.LENGTH_SHORT).show();
 
                     break;
@@ -251,14 +280,12 @@ public class GameActivity extends AppCompatActivity {
                 clDielogReset.setVisibility(View.GONE);
                 onTouchable = true;
                 break;
-
             case R.id.v_forget:
                 if (wasMoved) timeModel.Pause();
                 wasMoved = false;
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogForget.setVisibility(View.VISIBLE);
                 ivImageForget.setImageResource(idForgetImages[positionMainImage]);
-
                 onTouchable = false;
                 break;
 
@@ -280,8 +307,6 @@ public class GameActivity extends AppCompatActivity {
             case R.id.v_cancel_dielog_savename:
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogSaveName.setVisibility(View.GONE);
-                etSaveName.setVisibility(View.GONE);
-                saveName("Anonymous");
                 Initialization();
                 Intent intentToHighScoreCancel = new Intent(GameActivity.this, HighScoresActivity.class);
                 startActivity(intentToHighScoreCancel);
@@ -292,7 +317,6 @@ public class GameActivity extends AppCompatActivity {
                 Log.d(TAG, "onViewClicked: ok save name " + name);
                 if (turnOnSound) soundModel.playSound(R.raw.snapping);
                 clDielogSaveName.setVisibility(View.GONE);
-                etSaveName.setVisibility(View.GONE);
                 saveName(name);
                 Initialization();
                 Intent intentToHighScore = new Intent(GameActivity.this, HighScoresActivity.class);
@@ -365,7 +389,7 @@ public class GameActivity extends AppCompatActivity {
         wasMoved = false;
         timeModel = new TimeModel(chronometer, 0);
         timeModel.Reset();
-        if(!wasMoved) timeModel.Pause();
+        if (!wasMoved) timeModel.Pause();
         tvCurrentMoving.setText("0");
         numberMoving = 0;
 
@@ -414,12 +438,20 @@ public class GameActivity extends AppCompatActivity {
 
 
         for (int position = resultString.length() - 1; position >= 0; position--) {
-            switch ((int)resultString.charAt(position)){
-                case (int) 'R' : stackResult.add(LEFT_TO_RIGHT); break;
-                case (int) 'U' : stackResult.add(DOWN_TO_UP); break;
-                case (int) 'L' : stackResult.add(RIGHT_TO_LEFT); break;
-                case (int) 'D' : stackResult.add(UP_TO_DOWN); break;
-                default: continue;
+            switch ((int) resultString.charAt(position)) {
+                case (int) 'R':
+                    stackResult.add(LEFT_TO_RIGHT);
+                    break;
+                case (int) 'U':
+                    stackResult.add(DOWN_TO_UP);
+                    break;
+                case (int) 'L':
+                    stackResult.add(RIGHT_TO_LEFT);
+                    break;
+                case (int) 'D':
+                    stackResult.add(UP_TO_DOWN);
+                    break;
+
             }
         }
         Log.d(TAG, "getSolution: " + stackResult);
@@ -430,7 +462,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         turnOnSound = false;
-         int numberSteps = stackResult.size() > 7 ? stackResult.size() - 7 : stackResult.size();
+        int numberSteps = stackResult.size() > 7 ? stackResult.size() - 7 : stackResult.size();
 
 
         CountDownTimer countDownTimer = new CountDownTimer((numberSteps + 1) * 250, 250) {
@@ -445,7 +477,8 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-              if(!stackResult.isEmpty() )  Toast.makeText(GameActivity.this, "Let's try to complete by less than 10 steps", Toast.LENGTH_LONG).show();
+                if (!stackResult.isEmpty())
+                    Toast.makeText(GameActivity.this, "Let's try to complete by less than 10 steps", Toast.LENGTH_LONG).show();
                 Toast.makeText(GameActivity.this, "Your result will not be saved in High Scores", Toast.LENGTH_SHORT).show();
 
                 clMainBoard.setOnTouchListener(new View.OnTouchListener() {
@@ -470,9 +503,9 @@ public class GameActivity extends AppCompatActivity {
     private void getRandomMap() {
         isChangling = true;
 
-        int countTimes = 0;
+        int countRandomTimes = 0;
         Random random = new Random();
-        while (countTimes < RANDOM_TIMES) {
+        while (countRandomTimes < RANDOM_TIMES) {
 
             int dir = random.nextInt(4);
             int currentX = emptyPuzzle.x;
@@ -483,8 +516,8 @@ public class GameActivity extends AppCompatActivity {
                 continue;
             }
 
-            countTimes++;
-
+            countRandomTimes++;
+            // swapPuzzle
             puzzle[currentX][currentY] = puzzle[newX][newY];
             ivPuzzle[currentX][currentY].setImageDrawable(ivPuzzle[newX][newY].getDrawable());
             ivPuzzle[currentX][currentY].setBackgroundResource(R.drawable.border4);
