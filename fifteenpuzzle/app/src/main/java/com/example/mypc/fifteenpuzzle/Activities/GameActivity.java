@@ -101,9 +101,10 @@ public class GameActivity extends AppCompatActivity {
     private int numberMoving = 0;
     private int positionMainImage = 1;
     private int[] idForgetImages = {
-            R.drawable.zero,R.drawable.imageoneqk,  R.drawable.imagetwothienanh, R.drawable.imagethreehai,
+            R.drawable.zero, R.drawable.imageoneqk, R.drawable.imagetwothienanh, R.drawable.imagethreehai,
             R.drawable.imagefourtrung, R.drawable.imagefiveqk, R.drawable.imagesixhoang, R.drawable.imageseven,
-            R.drawable.imagetech, R.drawable.imageninegirl, R.drawable.imageten, 0
+            R.drawable.imagetech, R.drawable.imagezero, R.drawable.imageeight, R.drawable.imageninegirl,
+            R.drawable.imageten, R.drawable.imageeleven, 0
     };
     private int[][][] idIvPuzzles = {
             {
@@ -155,6 +156,18 @@ public class GameActivity extends AppCompatActivity {
                     {R.drawable.sevenda, R.drawable.sevendb, R.drawable.sevendc, R.drawable.sevendd}
             },
             {
+                    {R.drawable.aa, R.drawable.ab, R.drawable.ac, R.drawable.ad},
+                    {R.drawable.ba, R.drawable.bb, R.drawable.bc, R.drawable.bd},
+                    {R.drawable.ca, R.drawable.cb, R.drawable.cc, R.drawable.cd},
+                    {R.drawable.da, R.drawable.db, R.drawable.dc, R.drawable.dd}
+            },
+            {
+                    {R.drawable.eightaa, R.drawable.eightab, R.drawable.eightac, R.drawable.eightad},
+                    {R.drawable.eightba, R.drawable.eightbb, R.drawable.eightbc, R.drawable.eightbd},
+                    {R.drawable.eightca, R.drawable.eightcb, R.drawable.eightcc, R.drawable.eightcd},
+                    {R.drawable.eightda, R.drawable.eightdb, R.drawable.eightdc, R.drawable.eightdd}
+            },
+            {
                     {R.drawable.techaa, R.drawable.techab, R.drawable.techac, R.drawable.techad},
                     {R.drawable.techba, R.drawable.techbb, R.drawable.techbc, R.drawable.techbd},
                     {R.drawable.techca, R.drawable.techcb, R.drawable.techcc, R.drawable.techcd},
@@ -172,6 +185,12 @@ public class GameActivity extends AppCompatActivity {
                     {R.drawable.tenca, R.drawable.tencb, R.drawable.tencc, R.drawable.tencd},
                     {R.drawable.tenda, R.drawable.tendb, R.drawable.tendc, R.drawable.tendd}
             },
+            {
+                    {R.drawable.elevenaa, R.drawable.elevenab, R.drawable.elevenac, R.drawable.elevenad},
+                    {R.drawable.elevenba, R.drawable.elevenbb, R.drawable.elevenbc, R.drawable.elevenbd},
+                    {R.drawable.elevenca, R.drawable.elevencb, R.drawable.elevencc, R.drawable.elevencd},
+                    {R.drawable.elevenda, R.drawable.elevendb, R.drawable.elevendc, R.drawable.elevendd}
+            }
 
 
     };
@@ -462,23 +481,33 @@ public class GameActivity extends AppCompatActivity {
 
 
         turnOnSound = false;
-        int numberSteps = stackResult.size() > 7 ? stackResult.size() - 7 : stackResult.size();
+        final int numberSteps = (int)(stackResult.size()*0.67) > 15 ? (int)(stackResult.size()*0.67)  : stackResult.size();
 
 
-        CountDownTimer countDownTimer = new CountDownTimer((numberSteps + 1) * 250, 250) {
+        CountDownTimer countDownTimer = new CountDownTimer((numberSteps ) * 250, 250) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (!stackResult.isEmpty()) {
                     int dir = stackResult.pop();
                     showSolution += (direct[dir] + "-");
                     swapContent(dir);
+                   // numberMoving += 2;
                 }
             }
 
             @Override
             public void onFinish() {
-                if (!stackResult.isEmpty())
-                    Toast.makeText(GameActivity.this, "Let's try to complete by less than 10 steps", Toast.LENGTH_LONG).show();
+                if (!stackResult.isEmpty()){
+                    Toast.makeText(GameActivity.this, "Let's Continue ^^ ", Toast.LENGTH_LONG).show();
+                    //show forget
+                    if (wasMoved) timeModel.Pause();
+                    wasMoved = false;
+                    if (turnOnSound) soundModel.playSound(R.raw.snapping);
+                    clDielogForget.setVisibility(View.VISIBLE);
+                    ivImageForget.setImageResource(idForgetImages[positionMainImage]);
+                    onTouchable = false;
+                }
+
                 Toast.makeText(GameActivity.this, "Your result will not be saved in High Scores", Toast.LENGTH_SHORT).show();
 
                 clMainBoard.setOnTouchListener(new View.OnTouchListener() {

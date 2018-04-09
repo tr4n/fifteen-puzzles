@@ -50,14 +50,15 @@ public class OptionsActivity extends AppCompatActivity {
     SoundModel soundModel = new SoundModel(this);
 
     private int[] idPreview = {
-            R.drawable.zero,R.drawable.imageoneqk,  R.drawable.imagetwothienanh, R.drawable.imagethreehai,
+            R.drawable.zero, R.drawable.imageoneqk, R.drawable.imagetwothienanh, R.drawable.imagethreehai,
             R.drawable.imagefourtrung, R.drawable.imagefiveqk, R.drawable.imagesixhoang, R.drawable.imageseven,
-            R.drawable.imagetech, R.drawable.imageninegirl, R.drawable.imageten, 0
+            R.drawable.imagetech, R.drawable.imagezero, R.drawable.imageeight, R.drawable.imageninegirl,
+            R.drawable.imageten, R.drawable.imageeleven, 0
     };
     private int currentPosition = 1;
     private final int NEXT_TO_LEFT = -1;
     private final int NEXT_TO_RIGHT = 1;
-    private final int NUM_PREVIEWS = 11;
+    private final int NUM_PREVIEWS = 14;
     private static final String TAG = "OptionsActivity";
 
 
