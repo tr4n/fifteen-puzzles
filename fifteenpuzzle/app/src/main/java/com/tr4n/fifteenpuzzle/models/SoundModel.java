@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Models;
+package com.tr4n.fifteenpuzzle.models;
 
 import android.content.Context;
 import android.media.MediaPlayer;

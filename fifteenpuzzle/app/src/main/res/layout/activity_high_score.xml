@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundclouds"
-    tools:context="com.example.mypc.fifteenpuzzle.Activities.HighScoresActivity">
+    tools:context="com.tr4n.fifteenpuzzle.activities.HighScoresActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_title_bar"

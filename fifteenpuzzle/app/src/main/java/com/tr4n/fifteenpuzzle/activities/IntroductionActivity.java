@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Activities;
+package com.tr4n.fifteenpuzzle.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.example.mypc.fifteenpuzzle.Models.SoundModel;
-import com.example.mypc.fifteenpuzzle.R;
+import com.tr4n.fifteenpuzzle.models.SoundModel;
+import com.tr4n.fifteenpuzzle.R;
 
 public class IntroductionActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Models;
+package com.tr4n.fifteenpuzzle.models;
 
 /**
  * Created by MyPC on 05/04/2018.

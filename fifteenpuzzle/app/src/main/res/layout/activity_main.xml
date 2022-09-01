@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundvaibotho"
-    tools:context="com.example.mypc.fifteenpuzzle.Activities.MainActivity">
+    tools:context="com.tr4n.fifteenpuzzle.activities.MainActivity">
 
     <android.support.constraint.Guideline
         android:id="@+id/gl_35_percent_Horizontal"

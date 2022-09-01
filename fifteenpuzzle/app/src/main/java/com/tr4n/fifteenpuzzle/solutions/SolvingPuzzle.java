@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Solutions;
+package com.tr4n.fifteenpuzzle.solutions;
 
 import android.util.Log;
 

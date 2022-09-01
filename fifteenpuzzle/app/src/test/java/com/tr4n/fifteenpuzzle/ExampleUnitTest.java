@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle;
+package com.tr4n.fifteenpuzzle;
 
 import org.junit.Test;
 

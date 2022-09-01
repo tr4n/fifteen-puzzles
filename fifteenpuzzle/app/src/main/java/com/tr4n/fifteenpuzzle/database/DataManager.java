@@ -1,11 +1,11 @@
-package com.example.mypc.fifteenpuzzle.Databases;
+package com.tr4n.fifteenpuzzle.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.mypc.fifteenpuzzle.Models.ScoreModel;
+import com.tr4n.fifteenpuzzle.models.ScoreModel;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Activities;
+package com.tr4n.fifteenpuzzle.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mypc.fifteenpuzzle.Databases.DataManager;
-import com.example.mypc.fifteenpuzzle.Models.ScoreModel;
-import com.example.mypc.fifteenpuzzle.R;
+import com.tr4n.fifteenpuzzle.database.DataManager;
+import com.tr4n.fifteenpuzzle.models.ScoreModel;
+import com.tr4n.fifteenpuzzle.R;
 
 import java.util.List;
 

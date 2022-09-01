@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle;
+package com.tr4n.fifteenpuzzle;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

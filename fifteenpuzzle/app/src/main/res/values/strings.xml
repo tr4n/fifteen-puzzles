@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fifteen Puzzle </string>
+    <string name="max_25_characters">max 25 characters</string>
 </resources>

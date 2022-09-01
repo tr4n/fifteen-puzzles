@@ -1,10 +1,8 @@
-package com.example.mypc.fifteenpuzzle.Activities;
+package com.tr4n.fifteenpuzzle.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,13 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mypc.fifteenpuzzle.Databases.DataManager;
-import com.example.mypc.fifteenpuzzle.Models.ScoreModel;
-import com.example.mypc.fifteenpuzzle.Models.SoundModel;
-import com.example.mypc.fifteenpuzzle.Models.SpecialPuzzleModel;
-import com.example.mypc.fifteenpuzzle.Models.TimeModel;
-import com.example.mypc.fifteenpuzzle.R;
-import com.example.mypc.fifteenpuzzle.Solutions.SolvingPuzzle;
+import com.tr4n.fifteenpuzzle.database.DataManager;
+import com.tr4n.fifteenpuzzle.models.ScoreModel;
+import com.tr4n.fifteenpuzzle.models.SoundModel;
+import com.tr4n.fifteenpuzzle.models.SpecialPuzzleModel;
+import com.tr4n.fifteenpuzzle.models.TimeModel;
+import com.tr4n.fifteenpuzzle.R;
+import com.tr4n.fifteenpuzzle.solutions.SolvingPuzzle;
 
 import java.util.List;
 import java.util.Random;
@@ -208,13 +206,9 @@ public class GameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Define();
         Initialization();
-
         setupUI();
-
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @OnClick({R.id.iv_back, R.id.tv_current_moving, R.id.tv_best_moving, R.id.cl_main_board, R.id.iv_continue, R.id.iv_newgame, R.id.iv_solve, R.id.iv_quit, R.id.cl_menu_box, R.id.iv_menu, R.id.cl_score_board, R.id.v_cancel_dielog, R.id.v_no_dielog, R.id.v_yes_dielog, R.id.v_forget, R.id.v_reset, R.id.v_cancel_dielog_forget, R.id.iv_custom, R.id.v_ok_dielog_savename, R.id.v_cancel_dielog_savename})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -481,7 +475,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         turnOnSound = false;
-        final int numberSteps = (int)(stackResult.size()*0.67) > 15 ? (int)(stackResult.size()*0.67)  : stackResult.size();
+        final int numberSteps = stackResult.size();
 
 
         CountDownTimer countDownTimer = new CountDownTimer((numberSteps ) * 250, 250) {

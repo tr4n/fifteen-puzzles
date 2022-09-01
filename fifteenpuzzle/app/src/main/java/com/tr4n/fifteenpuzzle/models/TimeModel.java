@@ -1,4 +1,4 @@
-package com.example.mypc.fifteenpuzzle.Models;
+package com.tr4n.fifteenpuzzle.models;
 
 import android.os.SystemClock;
 import android.widget.Chronometer;

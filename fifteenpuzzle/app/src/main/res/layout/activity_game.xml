@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundvaibotho"
-    tools:context="com.example.mypc.fifteenpuzzle.Activities.GameActivity">
+    tools:context="com.tr4n.fifteenpuzzle.activities.GameActivity">
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_title_bar"
         android:layout_width="0dp"
@@ -147,7 +148,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/darkerbackground"
+        android:background="#B3000000"
         android:elevation="50dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -171,7 +172,6 @@
                 android:id="@+id/v_cancel_dielog_forget"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -245,7 +245,7 @@
                 android:fontFamily="casual"
                 android:imeOptions="actionDone"
                 android:textStyle="bold"
-                android:hint="max 25 characters"
+                android:hint="@string/max_25_characters"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/v_ok_dielog_savename"
                 app:layout_constraintEnd_toStartOf="@+id/v_cancel_dielog_savename"
@@ -658,7 +658,6 @@
                 android:id="@+id/iv_custom"
                 android:layout_width="200dp"
                 android:layout_height="45dp"
-
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -666,5 +665,5 @@
                 app:srcCompat="@drawable/custombtn" />
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
-
 </android.support.constraint.ConstraintLayout>
+
