@@ -13,6 +13,7 @@ captures/
 .externalNativeBuild/
 .cxx/
 *.apk
+*.aab
 output.json
 
 # IntelliJ
@@ -23,7 +24,6 @@ deploymentTargetDropDown.xml
 render.experimental.xml
 
 # Keystore files
-*.jks
 *.keystore
 
 # Google Services (e.g. APIs or Firebase)
